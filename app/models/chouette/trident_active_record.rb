@@ -88,7 +88,7 @@ class Chouette::TridentActiveRecord < Chouette::ActiveRecord
     # Update the referential last update timestamp
     # The timestamp is based on the client (Chouette2) timezone
     def update_referential_last_update_timestamp
-        #logger.info 'Update referential last update timestamp'
+        logger.info 'Update referential last update timestamp'
         begin
           connection = ActiveRecord::Base.connection.raw_connection
           connection.prepare("last_update_timestamp","UPDATE referential_last_update SET last_update_timestamp=$1")
@@ -98,6 +98,9 @@ class Chouette::TridentActiveRecord < Chouette::ActiveRecord
         rescue => exception
           puts 'Could not update referential last update timestamp'
           puts exception.backtrace
+          logger.warn 'Could not update referential last update timestamp'
+          logger.warn exception.backtrace
+
         end
     end
 
